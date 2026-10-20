@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="icon" type="image/png" href="emblem.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заявки · RealMord</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            padding-left: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                        url('https://i.imgur.com/sFnCmCG.png') center/cover fixed;
+        }
+        .apply-page {
+            max-width: 640px;
+            margin: 5vh auto;
+            padding: 0 20px;
+        }
+        .apply-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .apply-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f0e6d2, #c0b9a8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .apply-header p {
+            color: #a0a8b7;
+            font-size: 1rem;
+            margin-top: 8px;
+        }
+        .apply-header .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #c52b3a;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: color 0.2s;
+        }
+        .apply-header .back-link:hover {
+            color: #a8222e;
+        }
+        .form-container {
+            animation: fadeUp 0.6s ease forwards;
+        }
+        .form-group .error-msg {
+            color: #f87171;
+            font-size: 0.85rem;
+            margin-top: 4px;
+            display: none;
+        }
+        .form-group input.error,
+        .form-group textarea.error {
+            border-color: #f87171;
+            box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.2);
+        }
+        body.light-theme .form-group input.error,
+        body.light-theme .form-group textarea.error {
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+        }
+        body.light-theme .apply-header h1 {
+            background: linear-gradient(135deg, #2c3e50, #4a5a6a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div class="apply-page">
+        <div class="apply-header">
+            <h1 id="form-title">Заявка на модератора</h1>
+            <p>RealMord</p>
+            <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+                <a href="index.html" class="back-link"><i class="fas fa-home"></i> На главную</a>
+                <a href="rules.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к правилам</a>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <p class="form-desc" id="form-desc">Заполните форму, чтобы подать заявку.</p>
+            <form id="mod-apply-form">
+                <input type="hidden" id="apply-role" value="moderator">
+                <div class="form-group">
+                    <label for="apply-nick">Ваше имя</label>
+                    <input type="text" id="apply-nick">
+                </div>
+                <div class="form-group">
+                    <label for="apply-discord">Ваш Discord</label>
+                    <input type="text" id="apply-discord">
+                </div>
+                <div class="form-group">
+                    <label for="apply-age">Ваш возраст</label>
+                    <input type="number" id="apply-age" min="13">
+                </div>
+                <div class="form-group">
+                    <label>Был ли опыт?</label>
+                    <div class="exp-selector">
+                        <label class="exp-option selected" data-exp="yes">
+                            <input type="radio" name="apply-exp" value="Да" checked hidden>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Да</span>
+                        </label>
+                        <label class="exp-option" data-exp="no">
+                            <input type="radio" name="apply-exp" value="Нет" hidden>
+                            <i class="fas fa-times-circle"></i>
+                            <span>Нет</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="apply-reason" id="reason-label">Почему вы хотите стать модератором?</label>
+                    <textarea id="apply-reason" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="apply-extra">Дополнительная информация</label>
+                    <textarea id="apply-extra" rows="3"></textarea>
+                </div>
+                <button type="submit" class="form-submit" id="apply-submit-btn">
+                    <i class="fas fa-paper-plane"></i> Отправить заявку
+                </button>
+                <p class="form-status" id="apply-status"></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const API_BASES = ['http://localhost:3000', 'https://rez-bot-r5uh.onrender.com'];
+            async function postJSON(path, body) {
+                let lastErr;
+                for (const base of API_BASES) {
+                    let res;
+                    try {
+                        res = await fetch(base + path, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(body)
+                        });
+                    } catch (err) {
+                        lastErr = err;
+                        continue;
+                    }
+                    return await res.json();
+                }
+                throw lastErr || new Error('network');
+            }
+
+            const form = document.getElementById('mod-apply-form');
+            const statusEl = document.getElementById('apply-status');
+            const submitBtn = document.getElementById('apply-submit-btn');
+            const formTitle = document.getElementById('form-title');
+            const formDesc = document.getElementById('form-desc');
+            const reasonLabel = document.getElementById('reason-label');
+
+            const roleLabels = {
+                moderator: { title: 'Заявка на модератора', desc: 'Заполните форму, чтобы подать заявку на модератора.', reason: 'Почему вы хотите стать модератором?', webhookTitle: 'Новая заявка на модератора' },
+                support: { title: 'Заявка в сапорт', desc: 'Заполните форму, чтобы подать заявку в сапорт.', reason: 'Почему вы хотите стать сапортом?', webhookTitle: 'Новая заявка в сапорт' },
+                curator: { title: 'Заявка на ассистента куратора', desc: 'Заполните форму, чтобы подать заявку на ассистента куратора.', reason: 'Почему вы хотите стать ассистентом куратора?', webhookTitle: 'Новая заявка на ассистента куратора' }
+            };
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const roleKey = urlParams.get('role') && roleLabels[urlParams.get('role')] ? urlParams.get('role') : 'moderator';
+            document.getElementById('apply-role').value = roleKey;
+            const roleInfo = roleLabels[roleKey];
+            formTitle.textContent = roleInfo.title;
+            formDesc.textContent = roleInfo.desc;
+            reasonLabel.textContent = roleInfo.reason;
+
+            document.querySelectorAll('.exp-option').forEach(opt => {
+                opt.addEventListener('click', () => {
+                    document.querySelectorAll('.exp-option').forEach(o => o.classList.remove('selected'));
+                    opt.classList.add('selected');
+                });
+            });
+
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const nick = document.getElementById('apply-nick').value.trim();
+                    const discord = document.getElementById('apply-discord').value.trim();
+                    const age = document.getElementById('apply-age').value;
+                    const expEl = document.querySelector('.exp-option.selected input');
+                    const exp = expEl ? expEl.value : '—';
+                    const reason = document.getElementById('apply-reason').value.trim();
+                    const extra = document.getElementById('apply-extra').value.trim();
+
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
+                    statusEl.textContent = '';
+
+                    try {
+                        const data = await postJSON('/apply', { role: roleKey, name: nick, discord, age, experience: exp, reason, extra });
+                        if (data.ok) {
+                            statusEl.style.color = '#4ade80';
+                            statusEl.textContent = 'Заявка отправлена! Администрация рассмотрит её в ближайшее время.';
+                            form.reset();
+                            document.querySelectorAll('.exp-option').forEach(o => o.classList.remove('selected'));
+                            document.querySelector('.exp-option[data-exp="yes"]').classList.add('selected');
+                        } else {
+                            throw new Error(data.error || 'Ошибка сервера');
+                        }
+                    } catch {
+                        statusEl.style.color = '#f87171';
+                        statusEl.textContent = 'Ошибка отправки. Попробуй позже или напиши администратору.';
+                    } finally {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить заявку';
+                    }
+                });
+            }
+
+            const savedTheme = localStorage.getItem('rezero-theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+            }
+        })();
+    </script>
+</body>
+</html>

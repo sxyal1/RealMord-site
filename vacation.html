@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="icon" type="image/png" href="emblem.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отпуск · RealMord</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            padding-left: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                        url('https://i.imgur.com/sFnCmCG.png') center/cover fixed;
+        }
+        .apply-page {
+            max-width: 520px;
+            margin: 5vh auto;
+            padding: 0 20px;
+        }
+        .apply-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .apply-header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f0e6d2, #c0b9a8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .apply-header p {
+            color: #a0a8b7;
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+        .apply-header .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #c52b3a;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: color 0.2s;
+        }
+        .apply-header .back-link:hover {
+            color: #a8222e;
+        }
+        .form-container {
+            animation: fadeUp 0.6s ease forwards;
+        }
+        .form-group .error-msg {
+            color: #f87171;
+            font-size: 0.85rem;
+            margin-top: 4px;
+            display: none;
+        }
+        .form-group input.error,
+        .form-group textarea.error {
+            border-color: #f87171;
+            box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.2);
+        }
+        body.light-theme .form-group input.error,
+        body.light-theme .form-group textarea.error {
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+        }
+        body.light-theme .apply-header h1 {
+            background: linear-gradient(135deg, #2c3e50, #4a5a6a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .date-row {
+            display: flex;
+            gap: 12px;
+        }
+        .date-row .form-group {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="apply-page">
+        <div class="apply-header">
+            <h1>Заявка на отпуск</h1>
+            <p>RealMord</p>
+            <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+                <a href="index.html" class="back-link"><i class="fas fa-home"></i> На главную</a>
+                <a href="rules.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад</a>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <form id="vacation-form">
+                <div class="form-group">
+                    <label for="vac-discord">Ваш Discord</label>
+                    <input type="text" id="vac-discord" placeholder="username" required>
+                </div>
+                <div class="date-row">
+                    <div class="form-group">
+                        <label for="vac-from">С</label>
+                        <input type="date" id="vac-from" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vac-to">По</label>
+                        <input type="date" id="vac-to" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="vac-reason">Причина</label>
+                    <textarea id="vac-reason" rows="3" placeholder="Необязательно"></textarea>
+                </div>
+                <button type="submit" class="form-submit" id="vac-submit-btn">
+                    <i class="fas fa-paper-plane"></i> Отправить заявку
+                </button>
+                <p class="form-status" id="vac-status"></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const API_BASES = ['http://localhost:3000', 'https://rez-bot-r5uh.onrender.com'];
+            async function postJSON(path, body) {
+                let lastErr;
+                for (const base of API_BASES) {
+                    let res;
+                    try {
+                        res = await fetch(base + path, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(body)
+                        });
+                    } catch (err) {
+                        lastErr = err;
+                        continue;
+                    }
+                    return await res.json();
+                }
+                throw lastErr || new Error('network');
+            }
+            const form = document.getElementById('vacation-form');
+            const statusEl = document.getElementById('vac-status');
+            const submitBtn = document.getElementById('vac-submit-btn');
+
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const discord = document.getElementById('vac-discord').value.trim();
+                    const dateFrom = document.getElementById('vac-from').value;
+                    const dateTo = document.getElementById('vac-to').value;
+                    const reason = document.getElementById('vac-reason').value.trim();
+
+                    if (!discord || !dateFrom || !dateTo) {
+                        statusEl.style.color = '#f87171';
+                        statusEl.textContent = 'Заполните все обязательные поля.';
+                        return;
+                    }
+
+                    if (new Date(dateTo) < new Date(dateFrom)) {
+                        statusEl.style.color = '#f87171';
+                        statusEl.textContent = 'Дата окончания не может быть раньше начала.';
+                        return;
+                    }
+
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
+                    statusEl.textContent = '';
+
+                    try {
+                        const data = await postJSON('/vacation', { discord, dateFrom, dateTo, reason });
+                        if (data.ok) {
+                            statusEl.style.color = '#4ade80';
+                            statusEl.textContent = 'Заявка отправлена! Администрация рассмотрит её.';
+                            form.reset();
+                        } else {
+                            throw new Error(data.error || 'Ошибка сервера');
+                        }
+                    } catch {
+                        statusEl.style.color = '#f87171';
+                        statusEl.textContent = 'Ошибка отправки. Попробуй позже.';
+                    } finally {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить заявку';
+                    }
+                });
+            }
+
+            const savedTheme = localStorage.getItem('rezero-theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+            }
+        })();
+    </script>
+</body>
+</html>

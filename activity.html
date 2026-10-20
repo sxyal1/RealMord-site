@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="icon" type="image/png" href="emblem.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Активность · RealMord</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            padding-left: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                        url('https://i.imgur.com/sFnCmCG.png') center/cover fixed;
+        }
+        .activity-page {
+            max-width: 800px;
+            margin: 5vh auto;
+            padding: 0 20px;
+        }
+        .activity-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .activity-header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f0e6d2, #c0b9a8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .activity-header p {
+            color: #a0a8b7;
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+        .activity-header .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #c52b3a;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: color 0.2s;
+        }
+        .activity-header .back-link:hover {
+            color: #a8222e;
+        }
+        body.light-theme .activity-header h1 {
+            background: linear-gradient(135deg, #2c3e50, #4a5a6a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stats-card {
+            background: rgba(21, 24, 30, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            border: 1px solid #2f3542;
+            margin-bottom: 24px;
+            overflow: hidden;
+            animation: fadeUp 0.6s ease forwards;
+        }
+        body.light-theme .stats-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: #e2e8f0;
+        }
+        .stats-card-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid #2f3542;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        body.light-theme .stats-card-header {
+            border-bottom-color: #e2e8f0;
+        }
+        .stats-card-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #f0e6d2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        body.light-theme .stats-card-header h2 {
+            color: #2c3e50;
+        }
+        .stats-card-header h2 i {
+            color: #c52b3a;
+        }
+        .stats-date {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .stats-table th {
+            padding: 12px 24px;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #2f3542;
+        }
+        body.light-theme .stats-table th {
+            border-bottom-color: #e2e8f0;
+            color: #94a3b8;
+        }
+        .stats-table td {
+            padding: 14px 24px;
+            border-bottom: 1px solid #1f232e;
+        }
+        body.light-theme .stats-table td {
+            border-bottom-color: #f1f5f9;
+        }
+        .stats-table tr:last-child td {
+            border-bottom: none;
+        }
+        .stats-table tr:hover td {
+            background: rgba(197, 43, 58, 0.04);
+        }
+        body.light-theme .stats-table tr:hover td {
+            background: rgba(197, 43, 58, 0.02);
+        }
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #2f3542;
+        }
+        body.light-theme .user-avatar {
+            border-color: #e2e8f0;
+        }
+        .user-name {
+            font-weight: 600;
+            color: #e5e5e5;
+            font-size: 0.9rem;
+        }
+        body.light-theme .user-name {
+            color: #1e2a3a;
+        }
+        .time-value {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        .time-above {
+            color: #4ade80;
+        }
+        .time-below {
+            color: #f87171;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-ok {
+            background: rgba(74, 222, 128, 0.12);
+            color: #4ade80;
+        }
+        .badge-fail {
+            background: rgba(248, 113, 113, 0.12);
+            color: #f87171;
+        }
+        body.light-theme .badge-ok {
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+        }
+        body.light-theme .badge-fail {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+        .stats-summary {
+            display: flex;
+            gap: 16px;
+            padding: 18px 24px;
+            border-top: 1px solid #2f3542;
+        }
+        body.light-theme .stats-summary {
+            border-top-color: #e2e8f0;
+        }
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+        .summary-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .dot-green {
+            background: #4ade80;
+            box-shadow: 0 0 6px rgba(74, 222, 128, 0.4);
+        }
+        .dot-red {
+            background: #f87171;
+            box-shadow: 0 0 6px rgba(248, 113, 113, 0.4);
+        }
+        .summary-label {
+            color: #9ca3af;
+        }
+        .summary-count {
+            font-weight: 700;
+            color: #e5e5e5;
+        }
+        body.light-theme .summary-count {
+            color: #1e2a3a;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px 24px;
+            color: #6b7280;
+        }
+        .empty-state i {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            color: #374151;
+        }
+        body.light-theme .empty-state i {
+            color: #9ca3af;
+        }
+        .refresh-btn {
+            background: none;
+            border: 1px solid #374151;
+            color: #9ca3af;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        body.light-theme .refresh-btn {
+            border-color: #d0d7e0;
+            color: #64748b;
+        }
+        .refresh-btn:hover {
+            border-color: #c52b3a;
+            color: #c52b3a;
+        }
+    </style>
+</head>
+<body>
+    <div class="activity-page">
+        <div class="activity-header">
+            <h1>Таблица активности</h1>
+            <p>Время в голосовых каналах</p>
+            <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+                <a href="index.html" class="back-link"><i class="fas fa-home"></i> На главную</a>
+                <a href="rules.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад</a>
+            </div>
+        </div>
+
+        <div id="mod-card" class="stats-card" style="animation-delay: 0.2s;">
+            <div class="stats-card-header">
+                <h2><i class="fas fa-shield"></i> Модераторы</h2>
+                <div>
+                    <span class="stats-date" id="mod-date"></span>
+                    <button class="refresh-btn" onclick="loadData()"><i class="fas fa-sync-alt"></i></button>
+                </div>
+            </div>
+            <div id="mod-table"></div>
+        </div>
+
+        <div id="support-card" class="stats-card" style="animation-delay: 0.4s;">
+            <div class="stats-card-header">
+                <h2><i class="fas fa-headset"></i> Саппорт</h2>
+                <span class="stats-date" id="support-date"></span>
+            </div>
+            <div id="support-table"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASES = ['http://localhost:3000', 'https://rez-bot-r5uh.onrender.com'];
+        const NORM_MS = 2 * 60 * 60 * 1000;
+
+        function formatTime(ms) {
+            const totalMin = Math.floor(ms / 60000);
+            const hours = Math.floor(totalMin / 60);
+            const minutes = totalMin % 60;
+            return `${hours}h ${minutes}m`;
+        }
+
+        function renderTable(containerId, data) {
+            const el = document.getElementById(containerId);
+            if (!data || data.length === 0) {
+                el.innerHTML = '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Нет данных за сегодня</p></div>';
+                return;
+            }
+
+            let html = '<table class="stats-table"><thead><tr><th>#</th><th>Пользователь</th><th>Время</th><th>Статус</th></tr></thead><tbody>';
+            data.forEach((u, i) => {
+                const above = u.timeMs >= NORM_MS;
+                html += `<tr>
+                    <td style="color:#6b7280;font-weight:600;">${i + 1}</td>
+                    <td><div class="user-cell"><img class="user-avatar" src="${u.avatar}" alt=""><span class="user-name">${u.username}</span></div></td>
+                    <td><span class="time-value ${above ? 'time-above' : 'time-below'}">${formatTime(u.timeMs)}</span></td>
+                    <td><span class="status-badge ${above ? 'badge-ok' : 'badge-fail'}"><i class="fas ${above ? 'fa-check' : 'fa-times'}"></i> ${above ? 'Норма' : 'Ниже нормы'}</span></td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+
+            const above = data.filter(u => u.timeMs >= NORM_MS).length;
+            const below = data.length - above;
+            html += `<div class="stats-summary">
+                <div class="summary-item"><span class="summary-dot dot-green"></span><span class="summary-label">Выполняют норму:</span><span class="summary-count">${above}</span></div>
+                <div class="summary-item"><span class="summary-dot dot-red"></span><span class="summary-label">Не выполняют:</span><span class="summary-count">${below}</span></div>
+            </div>`;
+
+            el.innerHTML = html;
+        }
+
+        async function loadData() {
+            try {
+                let data = null;
+                let lastErr = null;
+                for (const base of API_BASES) {
+                    try {
+                        const res = await fetch(base + '/api/voice');
+                        data = await res.json();
+                        break;
+                    } catch (err) {
+                        lastErr = err;
+                    }
+                }
+                if (!data) throw lastErr || new Error('network');
+
+                document.getElementById('mod-date').textContent = data.date;
+                document.getElementById('support-date').textContent = data.date;
+
+                renderTable('mod-table', data.mods);
+                renderTable('support-table', data.support);
+            } catch {
+                document.getElementById('mod-table').innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Ошибка загрузки данных</p></div>';
+                document.getElementById('support-table').innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Ошибка загрузки данных</p></div>';
+            }
+        }
+
+        loadData();
+        setInterval(loadData, 60000);
+
+        const savedTheme = localStorage.getItem('rezero-theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-theme');
+        }
+    </script>
+</body>
+</html>

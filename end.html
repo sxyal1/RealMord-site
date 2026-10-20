@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/AZKwJBP.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruthless Elite Zero — Конец</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { padding-left: 0; overflow-x: hidden; background: linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.7)), url('https://i.imgur.com/iZ6Qsf4.png') center/cover fixed; }
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .particle { position: absolute; width: 2px; height: 2px; background: #c52b3a; border-radius: 50%; opacity: 0; animation: particleFloat linear infinite; }
+        @keyframes particleFloat { 0% { opacity: 0; transform: translateY(100vh) scale(0); } 10% { opacity: 1; } 90% { opacity: 1; } 100% { opacity: 0; transform: translateY(-10vh) scale(1); } }
+
+        .end-page { max-width: 720px; margin: 0 auto; padding: 6vh 20px 50px; text-align: center; position: relative; z-index: 2; opacity: 0; transform: translateY(40px); animation: endIn 1.5s 3s forwards; }
+        @keyframes endIn { to { opacity: 1; transform: translateY(0); } }
+
+        .knight-svg, .waifu-svg { width: 260px; height: 380px; margin: 0 auto 20px; display: block; filter: drop-shadow(0 0 40px rgba(255, 107, 157, 0.25)); animation: waifuFloat 5s ease-in-out infinite; }
+
+        .end-title { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; color: #f0e6d2; margin-bottom: 8px; letter-spacing: 6px; text-transform: uppercase; position: relative; display: inline-block; text-shadow: 0 0 30px rgba(197, 43, 58, 0.4); }
+        .end-title::before, .end-title::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .end-title::before { color: #ff6b9d; animation: glitch1 3s infinite; clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%); }
+        .end-title::after { color: #ffd700; animation: glitch2 3s infinite; clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); }
+        @keyframes glitch1 { 0%, 90%, 100% { transform: translate(0); } 92% { transform: translate(-3px, 1px); } 94% { transform: translate(3px, -1px); } 96% { transform: translate(-2px, 0); } }
+        @keyframes glitch2 { 0%, 90%, 100% { transform: translate(0); } 91% { transform: translate(2px, -1px); } 93% { transform: translate(-3px, 1px); } 95% { transform: translate(1px, 0); } }
+
+        .end-subtitle { font-size: 1.15rem; color: #8a94a6; margin-bottom: 16px; line-height: 1.8; opacity: 0; animation: textIn 1s 3.8s forwards; }
+        .end-subtitle strong { color: #c52b3a; font-weight: 700; }
+        .end-date { font-size: 0.85rem; color: #5a6478; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 40px; opacity: 0; animation: textIn 1s 4s forwards; }
+        .end-date span { color: #c52b3a; }
+        .end-divider { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 0 auto 50px; opacity: 0; animation: textIn 1s 4.2s forwards; }
+        .end-divider .line { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, #c52b3a); }
+        .end-divider .line:last-child { background: linear-gradient(90deg, #c52b3a, transparent); }
+        .end-divider .diamond { width: 8px; height: 8px; background: #c52b3a; transform: rotate(45deg); box-shadow: 0 0 10px rgba(197, 43, 58, 0.6); }
+
+        .vote-section { background: rgba(18, 20, 26, 0.9); backdrop-filter: blur(16px); border-radius: 28px; padding: 40px 36px; border: 1px solid rgba(197, 43, 58, 0.15); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(197, 43, 58, 0.1); position: relative; overflow: hidden; opacity: 0; animation: voteIn 1s 4.4s forwards; }
+        @keyframes voteIn { to { opacity: 1; } }
+        .vote-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #c52b3a, transparent); }
+        .vote-section::after { content: ''; position: absolute; bottom: 0; right: 0; width: 200px; height: 200px; background: radial-gradient(circle, rgba(197, 43, 58, 0.05), transparent); pointer-events: none; }
+        .vote-icon { font-size: 2rem; margin-bottom: 12px; display: inline-block; animation: heartBeat 1.5s ease-in-out infinite; }
+        @keyframes heartBeat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.15); } 30% { transform: scale(1); } 45% { transform: scale(1.1); } }
+        .vote-question { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700; color: #f0e6d2; margin-bottom: 28px; }
+        .vote-buttons { display: flex; gap: 18px; justify-content: center; margin-bottom: 32px; flex-wrap: wrap; }
+        .vote-btn { flex: 1; min-width: 200px; max-width: 260px; padding: 20px 28px; border-radius: 18px; border: 2px solid #2a2f3a; background: linear-gradient(145deg, #111318, #0d0f14); color: #b9c2d4; font-size: 1.05rem; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; justify-content: center; gap: 12px; position: relative; overflow: hidden; }
+        .vote-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent); transition: left 0.5s; }
+        .vote-btn:hover::before { left: 100%; }
+        .vote-btn i { font-size: 1.4rem; transition: all 0.3s; }
+        .vote-btn:hover { transform: translateY(-4px) scale(1.02); }
+        .vote-btn.btn-yes:hover, .vote-btn.btn-yes.voted { border-color: #22c55e; background: linear-gradient(145deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.03)); color: #22c55e; box-shadow: 0 8px 30px rgba(34, 197, 94, 0.2); }
+        .vote-btn.btn-yes:hover i, .vote-btn.btn-yes.voted i { color: #22c55e; filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.6)); }
+        .vote-btn.btn-no:hover, .vote-btn.btn-no.voted { border-color: #c52b3a; background: linear-gradient(145deg, rgba(197, 43, 58, 0.1), rgba(197, 43, 58, 0.03)); color: #c52b3a; box-shadow: 0 8px 30px rgba(197, 43, 58, 0.2); }
+        .vote-btn.btn-no:hover i, .vote-btn.btn-no.voted i { color: #c52b3a; filter: drop-shadow(0 0 8px rgba(197, 43, 58, 0.6)); }
+        .vote-results { display: none; flex-direction: column; gap: 18px; animation: resultsIn 0.6s ease forwards; }
+        .vote-results.show { display: flex; }
+        @keyframes resultsIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .result-row { display: flex; align-items: center; gap: 14px; }
+        .result-label { font-weight: 800; font-size: 0.9rem; min-width: 45px; text-align: right; text-transform: uppercase; letter-spacing: 1px; }
+        .result-label.yes { color: #22c55e; }
+        .result-label.no { color: #c52b3a; }
+        .result-bar-wrap { flex: 1; height: 36px; background: #0d0f14; border-radius: 18px; overflow: hidden; position: relative; border: 1px solid #2a2f3a; }
+        .result-bar { height: 100%; border-radius: 18px; transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden; }
+        .result-bar::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(180deg, rgba(255,255,255,0.1), transparent); }
+        .result-bar.yes { background: linear-gradient(135deg, #16a34a, #22c55e, #4ade80); box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
+        .result-bar.no { background: linear-gradient(135deg, #a8222e, #c52b3a, #e5455a); box-shadow: 0 0 20px rgba(197, 43, 58, 0.3); }
+        .result-percent { font-weight: 800; font-size: 1.1rem; min-width: 55px; }
+        .result-percent.yes { color: #22c55e; }
+        .result-percent.no { color: #c52b3a; }
+        .result-count { font-size: 0.8rem; color: #5a6478; margin-top: 8px; text-align: center; letter-spacing: 1px; text-transform: uppercase; }
+        .vote-status { margin-top: 24px; padding: 14px 24px; border-radius: 14px; font-size: 0.9rem; font-weight: 600; color: #8a94a6; background: rgba(13, 15, 20, 0.8); border: 1px solid #2a2f3a; }
+        .end-footer { margin-top: 60px; opacity: 0; animation: textIn 1s 4.8s forwards; }
+        .end-footer p { color: #3a4050; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; }
+        @keyframes textIn { to { opacity: 1; } }
+
+        @media (max-width: 600px) {
+            .end-title { font-size: 2.5rem; letter-spacing: 3px; }
+            .waifu-svg { width: 180px; height: 260px; }
+            .vote-buttons { flex-direction: column; align-items: center; }
+            .vote-btn { max-width: 100%; }
+            .result-label { min-width: 35px; font-size: 0.8rem; }
+            .vote-section { padding: 28px 20px; }
+        }
+
+        body.light-theme .vote-section { background: rgba(255, 255, 255, 0.92); border-color: #e2e8f0; box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+        body.light-theme .vote-question { color: #1e293b; }
+        body.light-theme .vote-btn { background: linear-gradient(145deg, #f8fafc, #f1f5f9); border-color: #d0d7e0; color: #475569; }
+        body.light-theme .vote-btn.btn-yes.voted { background: rgba(34, 197, 94, 0.06); color: #16a34a; }
+        body.light-theme .vote-btn.btn-no.voted { background: rgba(197, 43, 58, 0.06); color: #c52b3a; }
+        body.light-theme .result-bar-wrap { background: #f1f5f9; border-color: #d0d7e0; }
+        body.light-theme .vote-status { background: #f8fafc; border-color: #e2e8f0; color: #64748b; }
+        body.light-theme .end-title { text-shadow: none; }
+        body.light-theme .particle { opacity: 0 !important; }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="splash">
+        <div class="splash-ring"></div>
+        <div class="splash-ring-2"></div>
+        <div class="sparkles">
+            <div class="sparkle" style="--i: 0"></div>
+            <div class="sparkle" style="--i: 1"></div>
+            <div class="sparkle" style="--i: 2"></div>
+            <div class="sparkle" style="--i: 3"></div>
+            <div class="sparkle" style="--i: 4"></div>
+            <div class="sparkle" style="--i: 5"></div>
+        </div>
+        <div class="splash-icon">RZ</div>
+        <div class="splash-sub">Ruthless Elite Zero</div>
+        <div class="splash-text">
+            <span class="clan-slogan">Конец эпохи</span>
+            <span class="clan-tagline">The End</span>
+        </div>
+    </div>
+
+    <div class="end-page">
+<svg class="waifu-svg" viewBox="0 0 260 380" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="hairGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a1a2e"/>
+            <stop offset="100%" stop-color="#16213e"/>
+        </linearGradient>
+        <linearGradient id="hairGrad2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2a2a4e"/>
+            <stop offset="100%" stop-color="#1a1a2e"/>
+        </linearGradient>
+        <linearGradient id="dressGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a1a2e"/>
+            <stop offset="50%" stop-color="#0f0f1a"/>
+            <stop offset="100%" stop-color="#05050a"/>
+        </linearGradient>
+        <linearGradient id="dressAccent" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ff6b9d"/>
+            <stop offset="100%" stop-color="#c52b3a"/>
+        </linearGradient>
+        <filter id="g">
+            <feGaussianBlur stdDeviation="2"/>
+            <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+    </defs>
+
+    <!-- Тень -->
+    <ellipse cx="130" cy="365" rx="70" ry="8" fill="rgba(0,0,0,0.3)" filter="url(#g)"/>
+
+    <!-- ВОЛОСЫ (задние) -->
+    <path d="M85 100 Q60 140 55 200 Q50 270 60 330 Q65 350 75 355 Q85 350 88 330 Q90 280 95 220 Q98 180 100 140 Z" fill="url(#hairGrad2)"/>
+    <path d="M175 100 Q200 140 205 200 Q210 270 200 330 Q195 350 185 355 Q175 350 172 330 Q170 280 165 220 Q162 180 160 140 Z" fill="url(#hairGrad2)"/>
+
+    <!-- ШЕЯ -->
+    <rect x="117" y="198" width="26" height="20" rx="10" fill="#fce4d6"/>
+    <path d="M117 200 Q130 205 143 200" stroke="#e8c4a8" stroke-width="1" fill="none"/>
+
+    <!-- ТЕЛО/ПЛАТЬЕ -->
+    <path d="M108 220 L106 280 Q105 310 100 340 L95 365 L165 365 L160 340 Q155 310 154 280 L152 220 Z" fill="url(#dressGrad)"/>
+    <!-- Детали платья -->
+    <path d="M108 220 L106 280 Q105 310 100 340 L95 365 L130 365 L130 220 Z" fill="#151528" opacity="0.5"/>
+    <!-- Корсет -->
+    <path d="M112 240 L110 300 Q110 320 115 330 L145 330 Q150 320 150 300 L148 240 Z" fill="#1a1a2e" stroke="#ff6b9d" stroke-width="1"/>
+    <line x1="115" y1="260" x2="145" y2="260" stroke="#ff6b9d44" stroke-width="0.8"/>
+    <line x1="113" y1="280" x2="147" y2="280" stroke="#ff6b9d44" stroke-width="0.8"/>
+    <line x1="112" y1="300" x2="148" y2="300" stroke="#ff6b9d44" stroke-width="0.8"/>
+    <!-- Бант на груди -->
+    <path d="M125 235 Q130 230 135 235 L130 242 Z" fill="#ff6b9d" filter="url(#g)"/>
+    <circle cx="130" cy="237" r="3" fill="#ff6b9d"/>
+    <!-- Подол -->
+    <path d="M95 350 Q110 355 130 358 Q150 355 165 350 L165 365 L95 365 Z" fill="#0f0f1a" stroke="#ff6b9d66" stroke-width="1"/>
+
+    <!-- РЮШИ платья -->
+    <path d="M100 340 Q105 345 110 340 Q115 345 120 340 Q125 345 130 340 Q135 345 140 340 Q145 345 150 340 Q155 345 160 340" stroke="#ff6b9d99" stroke-width="1.5" fill="none"/>
+
+    <!-- ПЛЕЧИ/РУКИ -->
+    <!-- Левое плечо -->
+    <path d="M108 215 Q98 220 90 235 Q85 250 88 265" fill="none" stroke="#fce4d6" stroke-width="10" stroke-linecap="round"/>
+    <path d="M108 215 Q98 220 90 235 Q85 250 88 265" fill="none" stroke="#f5d5b8" stroke-width="8" stroke-linecap="round"/>
+    <!-- Правое плечо -->
+    <path d="M152 215 Q162 220 170 235 Q175 250 172 265" fill="none" stroke="#fce4d6" stroke-width="10" stroke-linecap="round"/>
+    <path d="M152 215 Q162 220 170 235 Q175 250 172 265" fill="none" stroke="#f5d5b8" stroke-width="8" stroke-linecap="round"/>
+
+    <!-- Рукава -->
+    <path d="M100 220 Q92 225 88 235 L80 260 Q78 265 82 268 L95 265 Q100 250 105 235 Z" fill="#1a1a2e" stroke="#ff6b9d66" stroke-width="0.8"/>
+    <path d="M160 220 Q168 225 172 235 L180 260 Q182 265 178 268 L165 265 Q160 250 155 235 Z" fill="#1a1a2e" stroke="#ff6b9d66" stroke-width="0.8"/>
+
+    <!-- КИСТИ -->
+    <circle cx="88" cy="268" r="8" fill="#fce4d6"/>
+    <circle cx="172" cy="268" r="8" fill="#fce4d6"/>
+
+    <!-- ВОЛОСЫ (передние) -->
+    <path d="M100 80 Q95 100 92 130 Q88 170 85 200 Q82 220 88 240 Q92 250 100 248 Q105 240 108 220 Q110 200 112 170 Q115 130 118 100 Z" fill="url(#hairGrad)"/>
+    <path d="M160 80 Q165 100 168 130 Q172 170 175 200 Q178 220 172 240 Q168 250 160 248 Q155 240 152 220 Q150 200 148 170 Q145 130 142 100 Z" fill="url(#hairGrad)"/>
+
+    <!-- Центральная чёлка -->
+    <path d="M115 65 Q120 80 125 110 Q128 140 130 160 Q132 140 135 110 Q140 80 145 65 Z" fill="#1a1a2e"/>
+
+    <!-- ЛИЦО -->
+    <ellipse cx="130" cy="175" rx="42" ry="48" fill="#fce4d6"/>
+    <path d="M88 175 Q88 135 130 128 Q172 135 172 175" fill="none" stroke="#f0d0b8" stroke-width="1"/>
+
+    <!-- РУМЯНЕЦ -->
+    <ellipse cx="102" cy="185" rx="12" ry="6" fill="#ffb3c1" opacity="0.4"/>
+    <ellipse cx="158" cy="185" rx="12" ry="6" fill="#ffb3c1" opacity="0.4"/>
+
+    <!-- ГЛАЗА (большие аниме) -->
+    <!-- Левый глаз -->
+    <ellipse cx="110" cy="172" rx="13" ry="15" fill="white"/>
+    <ellipse cx="110" cy="172" rx="11" ry="13" fill="#2a1a3e"/>
+    <ellipse cx="110" cy="172" rx="9" ry="11" fill="#ff6b9d" opacity="0.6"/>
+    <ellipse cx="110" cy="172" rx="6" ry="8" fill="#2a1a3e"/>
+    <circle cx="108" cy="168" r="4" fill="white" opacity="0.8">
+        <animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0.8;0.6;0.8"/>
+    </circle>
+    <circle cx="113" cy="176" r="2" fill="white" opacity="0.5"/>
+    <!-- Правый глаз -->
+    <ellipse cx="150" cy="172" rx="13" ry="15" fill="white"/>
+    <ellipse cx="150" cy="172" rx="11" ry="13" fill="#2a1a3e"/>
+    <ellipse cx="150" cy="172" rx="9" ry="11" fill="#ff6b9d" opacity="0.6"/>
+    <ellipse cx="150" cy="172" rx="6" ry="8" fill="#2a1a3e"/>
+    <circle cx="148" cy="168" r="4" fill="white" opacity="0.8">
+        <animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0.6;0.8;0.6"/>
+    </circle>
+    <circle cx="153" cy="176" r="2" fill="white" opacity="0.5"/>
+
+    <!-- БРОВИ -->
+    <path d="M98 156 Q108 152 120 156" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round"/>
+    <path d="M140 156 Q152 152 162 156" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- РЕСНИЦЫ -->
+    <path d="M98 158 L94 155" stroke="#1a1a2e" stroke-width="1.5"/>
+    <path d="M100 156 L97 152" stroke="#1a1a2e" stroke-width="1.5"/>
+    <path d="M162 158 L166 155" stroke="#1a1a2e" stroke-width="1.5"/>
+    <path d="M160 156 L163 152" stroke="#1a1a2e" stroke-width="1.5"/>
+
+    <!-- НОС -->
+    <path d="M127 186 Q130 190 133 186" fill="none" stroke="#e8c4a8" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- РОТ -->
+    <path d="M122 196 Q130 202 138 196" fill="none" stroke="#e8a0a0" stroke-width="2" stroke-linecap="round">
+        <animate attributeName="d" dur="5s" repeatCount="indefinite" values="M122 196 Q130 202 138 196;M123 195 Q130 200 137 195;M122 196 Q130 202 138 196"/>
+    </path>
+
+    <!-- АКСЕССУАР ДЛЯ ВОЛОС (заколка/лента) -->
+    <path d="M115 90 Q120 85 125 90 Q120 95 115 90 Z" fill="#ff6b9d" filter="url(#g)"/>
+    <path d="M115 90 L110 95 L115 100 L120 95 Z" fill="#ff6b9d" opacity="0.8"/>
+    <circle cx="115" cy="90" r="2" fill="#ffd700"/>
+
+    <!-- НОГИ -->
+    <path d="M115 365 L110 375 L125 375 L130 365 Z" fill="#fce4d6"/>
+    <path d="M130 365 L135 375 L150 375 L145 365 Z" fill="#fce4d6"/>
+
+    <!-- ПАРТИКЛЫ -->
+    <circle cx="60" cy="150" r="1.5" fill="#ff6b9d" opacity="0.6">
+        <animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;0.6;0"/>
+        <animate attributeName="cy" dur="3s" repeatCount="indefinite" values="150;130;150"/>
+    </circle>
+    <circle cx="200" cy="200" r="1" fill="#ffd700" opacity="0.5">
+        <animate attributeName="opacity" dur="2.5s" repeatCount="indefinite" values="0;0.5;0"/>
+        <animate attributeName="cx" dur="2.5s" repeatCount="indefinite" values="200;210;200"/>
+    </circle>
+    <circle cx="70" cy="280" r="1.2" fill="#ff6b9d" opacity="0.5">
+        <animate attributeName="opacity" dur="3.5s" repeatCount="indefinite" values="0;0.5;0"/>
+        <animate attributeName="cy" dur="3.5s" repeatCount="indefinite" values="280;260;280"/>
+    </circle>
+    <circle cx="190" cy="120" r="1" fill="#ffd700" opacity="0.6">
+        <animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0.6;0"/>
+        <animate attributeName="cx" dur="4s" repeatCount="indefinite" values="190;200;190"/>
+    </circle>
+</svg>
+
+        <h1 class="end-title" data-text="КОНЕЦ">КОНЕЦ</h1>
+        <p class="end-subtitle">
+            Discord-сервер <strong>Ruthless Elite Zero</strong> был удалён.<br>
+            Эра закончилась. Но воспоминания остаются навсегда.
+        </p>
+        <div class="end-date">
+            <span>2025</span> — <span>2026</span> · Ruthless Elite Zero
+        </div>
+
+        <div class="end-divider">
+            <div class="line"></div>
+            <div class="diamond"></div>
+            <div class="line"></div>
+        </div>
+
+        <div class="vote-section">
+            <div class="vote-icon">💜</div>
+            <div class="vote-question">Вернём сервер?</div>
+
+            <div class="vote-buttons" id="voteButtons">
+                <button class="vote-btn btn-yes" onclick="vote('yes')">
+                    <i class="fas fa-check-circle"></i> Да, вернём!
+                </button>
+                <button class="vote-btn btn-no" onclick="vote('no')">
+                    <i class="fas fa-times-circle"></i> Нет
+                </button>
+            </div>
+
+            <div class="vote-results" id="voteResults">
+                <div class="result-row">
+                    <span class="result-label yes">Да</span>
+                    <div class="result-bar-wrap"><div class="result-bar yes" id="barYes"></div></div>
+                    <span class="result-percent yes" id="percentYes">0%</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label no">Нет</span>
+                    <div class="result-bar-wrap"><div class="result-bar no" id="barNo"></div></div>
+                    <span class="result-percent no" id="percentNo">0%</span>
+                </div>
+                <div class="result-count" id="totalVotes">0 голосов</div>
+            </div>
+
+            <div class="vote-status" id="voteStatus">Нажми кнопку, чтобы проголосовать</div>
+        </div>
+
+        <div class="end-footer">
+            <p>⚔ Ruthless Elite Zero — 2025–2026</p>
+        </div>
+    </div>
+
+    <script>
+        (function createParticles() {
+            const c = document.getElementById('particles');
+            for (let i = 0; i < 40; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const s = Math.random() * 3 + 1;
+                p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*10+8}s;animation-delay:${Math.random()*15}s`;
+                p.style.background = Math.random() > 0.7 ? '#ffd700' : '#ff6b9d';
+                p.style.boxShadow = `0 0 ${s*3}px ${p.style.background}`;
+                c.appendChild(p);
+            }
+        })();
+
+        const SK = 'rz_vote', DK = 'rz_vote_data';
+        function gD() { const r = localStorage.getItem(DK); return r ? JSON.parse(r) : {yes:0,no:0}; }
+        function sD(d) { localStorage.setItem(DK, JSON.stringify(d)); }
+        function gV() { return localStorage.getItem(SK); }
+        function sV(v) { localStorage.setItem(SK, v); }
+        function showRes() {
+            const d = gD(), t = d.yes + d.no, pY = t ? Math.round(d.yes/t*100) : 0, pN = t ? Math.round(d.no/t*100) : 0;
+            document.getElementById('voteButtons').style.display = 'none';
+            document.getElementById('voteResults').classList.add('show');
+            setTimeout(() => { document.getElementById('barYes').style.width = pY+'%'; document.getElementById('barNo').style.width = pN+'%'; }, 100);
+            document.getElementById('percentYes').textContent = pY+'%';
+            document.getElementById('percentNo').textContent = pN+'%';
+            document.getElementById('totalVotes').textContent = t+' голос'+(t===1?'':(t<5?'а':'ов'));
+            const s = document.getElementById('voteStatus'), uv = gV();
+            if (uv === 'yes') { s.textContent = 'Ты проголосовал «Да» — спасибо!'; s.style.color = '#22c55e'; }
+            else { s.textContent = 'Ты проголосовал «Нет».'; s.style.color = '#c52b3a'; }
+        }
+        function vote(c) { if (gV()) return; const d = gD(); d[c==='yes'?'yes':'no']++; sD(d); sV(c); showRes(); }
+        if (gV()) setTimeout(showRes, 3200);
+        if (localStorage.getItem('rezero-theme') === 'light') document.body.classList.add('light-theme');
+    </script>
+</body>
+</html>

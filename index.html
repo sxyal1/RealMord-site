@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="icon" type="image/png" href="emblem.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RealMord — Клан Peroxide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,800&family=Metal+Mania&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body.page-home { padding-left: 0; overflow-x: hidden; background: #07050a; }
+
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; overflow: hidden; }
+        .particle { position: absolute; width: 2px; height: 2px; border-radius: 50%; opacity: 0; animation: particleFloat linear infinite; }
+        @keyframes particleFloat { 0% { opacity: 0; transform: translateY(100vh) scale(0); } 12% { opacity: .9; } 88% { opacity: .9; } 100% { opacity: 0; transform: translateY(-8vh) scale(1); } }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: url('https://i.imgur.com/sFnCmCG.png') center/cover no-repeat fixed;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at center, rgba(0,0,0,0.15), rgba(0,0,0,0.72) 78%),
+                linear-gradient(180deg, rgba(7,5,10,0.55), rgba(7,5,10,0.25) 40%, rgba(7,5,10,0.9));
+            z-index: 1;
+        }
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            padding: 12vh 20px 10vh;
+            max-width: 900px;
+        }
+        .hero-emblem {
+            width: min(300px, 62vw);
+            margin: 0 auto 18px;
+            animation: emblemIn 1.4s cubic-bezier(.2,.8,.2,1) both, emblemFloat 6s 1.4s ease-in-out infinite;
+            filter: drop-shadow(0 0 45px rgba(197, 43, 58, 0.55)) drop-shadow(0 12px 30px rgba(0,0,0,0.6));
+        }
+        .hero-emblem img { width: 100%; display: block; user-select: none; }
+        @keyframes emblemIn { from { opacity: 0; transform: scale(.82) translateY(24px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes emblemFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+        .hero-title {
+            font-family: 'Metal Mania', cursive;
+            font-weight: 400;
+            font-size: clamp(3.5rem, 12vw, 8rem);
+            letter-spacing: 6px;
+            margin: 0 0 10px;
+            text-transform: uppercase;
+            color: #0c0c0e;
+            -webkit-text-stroke: 1.5px #c52b3a;
+            text-shadow:
+                0 0 20px rgba(197, 43, 58, 0.9),
+                0 0 60px rgba(197, 43, 58, 0.5),
+                0 0 2px #000;
+            filter: drop-shadow(0 0 25px rgba(197, 43, 58, 0.45));
+            animation: titleIn 1.2s .25s cubic-bezier(.2,.8,.2,1) both;
+        }
+        @keyframes titleIn { from { opacity: 0; transform: translateY(26px) scale(.92); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+        .hero-sub {
+            font-size: clamp(.95rem, 2.2vw, 1.15rem);
+            color: #c9b8b8;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin: 0 0 6px;
+            animation: fadeUpIn 1s .5s both;
+        }
+        .hero-slogan {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: #e8c9c9;
+            margin: 0 0 34px;
+            text-shadow: 0 0 18px rgba(197, 43, 58, 0.5);
+            animation: fadeUpIn 1s .65s both;
+        }
+        @keyframes fadeUpIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            animation: fadeUpIn 1s .8s both;
+        }
+        .hb {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 26px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: .95rem;
+            letter-spacing: .4px;
+            text-decoration: none;
+            color: #e5e5e5;
+            background: rgba(14, 10, 16, 0.72);
+            border: 1px solid rgba(197, 43, 58, 0.35);
+            backdrop-filter: blur(8px);
+            transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s, border-color .25s, background .25s;
+        }
+        .hb i { color: #c52b3a; transition: color .25s, filter .25s; }
+        .hb:hover { transform: translateY(-3px); border-color: #c52b3a; background: rgba(28, 12, 16, 0.85); box-shadow: 0 10px 30px rgba(197, 43, 58, 0.25); }
+        .hb:hover i { filter: drop-shadow(0 0 8px rgba(197, 43, 58, 0.8)); }
+        .hb-main {
+            background: linear-gradient(135deg, #c52b3a, #8f1522);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 8px 28px rgba(197, 43, 58, 0.4);
+        }
+        .hb-main i { color: #ffd9d9; }
+        .hb-main:hover { background: linear-gradient(135deg, #d83645, #a81c2b); box-shadow: 0 12px 36px rgba(197, 43, 58, 0.55); }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 26px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            color: #c52b3a;
+            font-size: 1.3rem;
+            animation: scrollBounce 2s infinite;
+            text-decoration: none;
+        }
+        @keyframes scrollBounce { 0%, 100% { transform: translateX(-50%) translateY(0); opacity: .7; } 50% { transform: translateX(-50%) translateY(8px); opacity: 1; } }
+
+        .home-section {
+            position: relative;
+            z-index: 2;
+            max-width: 1080px;
+            width: calc(100% - 40px);
+            margin: -60px auto 0;
+            padding-bottom: 60px;
+        }
+        .home-about {
+            background: rgba(21, 24, 30, 0.88);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(197, 43, 58, 0.25);
+            border-radius: 28px;
+            padding: 38px 34px;
+            margin-bottom: 26px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+        }
+        .home-about h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: #f0e6d2;
+            margin: 0 0 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .home-about h2 i { color: #c52b3a; }
+        .home-about p { color: #b9c2d4; line-height: 1.75; margin: 0 0 12px; font-size: 1rem; }
+        .home-about p strong { color: #e8b4b4; }
+
+        .home-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 18px;
+        }
+        .hcard {
+            display: block;
+            text-decoration: none;
+            background: rgba(21, 24, 30, 0.88);
+            backdrop-filter: blur(10px);
+            border: 1px solid #2f3542;
+            border-radius: 22px;
+            padding: 26px 22px;
+            transition: transform .25s cubic-bezier(.2,.8,.2,1), border-color .25s, box-shadow .25s;
+        }
+        .hcard:hover { transform: translateY(-6px); border-color: #c52b3a; box-shadow: 0 16px 40px rgba(197, 43, 58, 0.18); }
+        .hcard-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            background: rgba(197, 43, 58, 0.12);
+            border: 1px solid rgba(197, 43, 58, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #c52b3a;
+            margin-bottom: 16px;
+            transition: box-shadow .25s;
+        }
+        .hcard:hover .hcard-icon { box-shadow: 0 0 18px rgba(197, 43, 58, 0.4); }
+        .hcard h3 { margin: 0 0 8px; font-size: 1.15rem; color: #f0e6d2; }
+        .hcard p { margin: 0; color: #8a94a6; font-size: .9rem; line-height: 1.6; }
+
+        .home-footer {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 26px 16px 40px;
+            color: #4a5468;
+            font-size: .78rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .home-footer span { color: #c52b3a; }
+
+        @media (max-width: 600px) {
+            .hero-actions { flex-direction: column; align-items: stretch; }
+            .hb { justify-content: center; }
+            .home-about { padding: 28px 20px; }
+        }
+    </style>
+</head>
+<body class="page-home">
+    <div class="particles" id="particles"></div>
+
+    <div class="splash">
+        <div class="splash-ring"></div>
+        <div class="splash-ring-2"></div>
+        <div class="sparkles">
+            <div class="sparkle" style="--i: 0"></div>
+            <div class="sparkle" style="--i: 1"></div>
+            <div class="sparkle" style="--i: 2"></div>
+            <div class="sparkle" style="--i: 3"></div>
+            <div class="sparkle" style="--i: 4"></div>
+            <div class="sparkle" style="--i: 5"></div>
+        </div>
+        <div class="splash-icon"><img src="emblem.png" alt="RealMord"></div>
+        <div class="splash-sub">RealMord</div>
+        <div class="splash-text">
+            <span class="clan-tagline">⚔️ Peroxide Clan ⚔️</span>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-emblem"><img src="emblem.png" alt="Эмблема RealMord"></div>
+            <h1 class="hero-title">RealMord</h1>
+            <p class="hero-sub">Клан · Peroxide · Discord</p>
+            <div class="hero-actions">
+                <a class="hb hb-main" href="rules.html"><i class="fas fa-scroll"></i> Правила</a>
+                <a class="hb" href="apply.html"><i class="fas fa-pen-to-square"></i> Заявка в стафф</a>
+                <a class="hb" href="activity.html"><i class="fas fa-chart-bar"></i> Активность</a>
+                <a class="hb" href="vacation.html"><i class="fas fa-umbrella-beach"></i> Отпуск</a>
+                <a class="hb" href="https://discord.gg/KJaNkFjg" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i> Discord</a>
+            </div>
+        </div>
+        <a class="hero-scroll" href="#about" aria-label="Вниз"><i class="fas fa-chevron-down"></i></a>
+    </section>
+
+    <section class="home-section" id="about">
+        <div class="home-about">
+            <h2><i class="fas fa-shield-halved"></i> О клане</h2>
+            <p><strong>RealMord</strong> — клан в Peroxide с уважением к каждому участнику. Здесь ценят активность, честные трейды и командную игру. Мы растём, проводим события и держим порядок на сервере.</p>
+            <p>Новичкам — welcome и помощь в освоении, ветеранам — стафф, события и топы активности. Читай правила, подавай заявку и присоединяйся.</p>
+        </div>
+
+        <div class="home-cards">
+            <a class="hcard" href="rules.html">
+                <div class="hcard-icon"><i class="fas fa-scroll"></i></div>
+                <h3>Правила</h3>
+                <p>Полный свод правил клана: поведение, трейды, наказания и сроки их погашения.</p>
+            </a>
+            <a class="hcard" href="apply.html">
+                <div class="hcard-icon"><i class="fas fa-pen-to-square"></i></div>
+                <h3>Заявки в стафф</h3>
+                <p>Хочешь стать модератором, саппортом или ассистентом куратора? Подай заявку.</p>
+            </a>
+            <a class="hcard" href="activity.html">
+                <div class="hcard-icon"><i class="fas fa-chart-bar"></i></div>
+                <h3>Активность</h3>
+                <p>Таблица времени в голосовых каналах: кто выполняет норму, а кто нет.</p>
+            </a>
+            <a class="hcard" href="vacation.html">
+                <div class="hcard-icon"><i class="fas fa-umbrella-beach"></i></div>
+                <h3>Отпуск</h3>
+                <p>Не будешь играть некоторое время? Оставь заявку на отпуск, чтобы не получить наказание.</p>
+            </a>
+        </div>
+    </section>
+
+    <footer class="home-footer">⚔ RealMord — <span>2026</span> · Peroxide Clan ⚔</footer>
+
+    <script>
+        (function createParticles() {
+            const c = document.getElementById('particles');
+            for (let i = 0; i < 36; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const s = Math.random() * 2.4 + 1;
+                p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*10+9}s;animation-delay:${Math.random()*16}s`;
+                p.style.background = Math.random() > 0.55 ? '#ff6b6b' : '#c52b3a';
+                p.style.boxShadow = `0 0 ${s*3}px ${p.style.background}`;
+                c.appendChild(p);
+            }
+        })();
+    </script>
+</body>
+</html>
