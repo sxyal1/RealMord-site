@@ -101,7 +101,7 @@
             align-items: center;
             gap: 10px;
             padding: 14px 26px;
-            border-radius: 40px;
+            border-radius: 4px;
             font-weight: 700;
             font-size: .95rem;
             letter-spacing: .4px;
@@ -149,7 +149,7 @@
             background: rgba(21, 24, 30, 0.88);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(197, 43, 58, 0.25);
-            border-radius: 28px;
+            border-radius: 8px;
             padding: 38px 34px;
             margin-bottom: 26px;
             box-shadow: 0 24px 60px rgba(0,0,0,0.55);
@@ -178,7 +178,7 @@
             background: rgba(21, 24, 30, 0.88);
             backdrop-filter: blur(10px);
             border: 1px solid #2f3542;
-            border-radius: 22px;
+            border-radius: 6px;
             padding: 26px 22px;
             transition: transform .25s cubic-bezier(.2,.8,.2,1), border-color .25s, box-shadow .25s;
         }
@@ -186,7 +186,7 @@
         .hcard-icon {
             width: 52px;
             height: 52px;
-            border-radius: 16px;
+            border-radius: 4px;
             background: rgba(197, 43, 58, 0.12);
             border: 1px solid rgba(197, 43, 58, 0.3);
             display: flex;
@@ -212,6 +212,90 @@
             text-transform: uppercase;
         }
         .home-footer span { color: #c52b3a; }
+
+        /* ===== МОДАЛКА ВЫБОРА ЗАЯВКИ ===== */
+        .role-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(4, 3, 6, 0.82);
+            backdrop-filter: blur(6px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .25s ease, visibility .25s;
+        }
+        .role-modal.open { opacity: 1; visibility: visible; }
+        .role-modal-box {
+            width: 100%;
+            max-width: 520px;
+            background: rgba(21, 24, 30, 0.97);
+            border: 1px solid #2f3542;
+            border-top: 3px solid #c52b3a;
+            border-radius: 6px;
+            padding: 30px 28px 26px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+            transform: translateY(16px) scale(.98);
+            transition: transform .25s cubic-bezier(.2,.8,.2,1);
+        }
+        .role-modal.open .role-modal-box { transform: translateY(0) scale(1); }
+        .role-modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 6px; }
+        .role-modal-box h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            color: #f0e6d2;
+        }
+        .role-modal-box > p { margin: 0 0 20px; color: #8a94a6; font-size: .9rem; }
+        .role-modal-close {
+            background: none;
+            border: 1px solid #2f3542;
+            border-radius: 4px;
+            color: #8a94a6;
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: border-color .2s, color .2s;
+        }
+        .role-modal-close:hover { border-color: #c52b3a; color: #c52b3a; }
+        .role-options { display: flex; flex-direction: column; gap: 10px; }
+        .role-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 18px;
+            background: #0d0f14;
+            border: 1px solid #2a2f3a;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: border-color .2s, background .2s, transform .2s;
+        }
+        .role-option:hover { border-color: #c52b3a; background: #131016; transform: translateX(4px); }
+        .role-option > i:first-child {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(197, 43, 58, 0.12);
+            border: 1px solid rgba(197, 43, 58, 0.3);
+            border-radius: 4px;
+            color: #c52b3a;
+            font-size: 1.15rem;
+        }
+        .role-option-text { display: flex; flex-direction: column; gap: 2px; }
+        .role-option-text strong { color: #f0e6d2; font-size: 1rem; letter-spacing: .3px; }
+        .role-option-text small { color: #8a94a6; font-size: .8rem; }
+        .role-option > i:last-child { margin-left: auto; color: #5a6478; font-size: .85rem; transition: color .2s, transform .2s; }
+        .role-option:hover > i:last-child { color: #c52b3a; transform: translateX(3px); }
 
         @media (max-width: 600px) {
             .hero-actions { flex-direction: column; align-items: stretch; }
@@ -248,7 +332,7 @@
             <p class="hero-sub">Клан · Peroxide · Discord</p>
             <div class="hero-actions">
                 <a class="hb hb-main" href="rules.html"><i class="fas fa-scroll"></i> Правила</a>
-                <a class="hb" href="apply.html"><i class="fas fa-pen-to-square"></i> Заявка в стафф</a>
+                <a class="hb" href="apply.html" data-role-open><i class="fas fa-pen-to-square"></i> Заявка в стафф</a>
                 <a class="hb" href="activity.html"><i class="fas fa-chart-bar"></i> Активность</a>
                 <a class="hb" href="vacation.html"><i class="fas fa-umbrella-beach"></i> Отпуск</a>
                 <a class="hb" href="https://discord.gg/KJaNkFjg" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i> Discord</a>
@@ -270,7 +354,7 @@
                 <h3>Правила</h3>
                 <p>Полный свод правил клана: поведение, трейды, наказания и сроки их погашения.</p>
             </a>
-            <a class="hcard" href="apply.html">
+            <a class="hcard" href="apply.html" data-role-open>
                 <div class="hcard-icon"><i class="fas fa-pen-to-square"></i></div>
                 <h3>Заявки в стафф</h3>
                 <p>Хочешь стать модератором, саппортом или ассистентом куратора? Подай заявку.</p>
@@ -290,6 +374,33 @@
 
     <footer class="home-footer">⚔ RealMord — <span>2026</span> · Peroxide Clan ⚔</footer>
 
+    <div class="role-modal" id="role-modal" role="dialog" aria-modal="true" aria-labelledby="role-modal-title">
+        <div class="role-modal-box">
+            <div class="role-modal-head">
+                <h3 id="role-modal-title">Заявка в стафф</h3>
+                <button class="role-modal-close" id="role-modal-close" aria-label="Закрыть"><i class="fas fa-xmark"></i></button>
+            </div>
+            <p>Выбери позицию, на которую хочешь подать заявку.</p>
+            <div class="role-options">
+                <a class="role-option" href="apply.html?role=moderator">
+                    <i class="fas fa-shield-halved"></i>
+                    <span class="role-option-text"><strong>Модератор</strong><small>Следит за порядком и правилами сервера</small></span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+                <a class="role-option" href="apply.html?role=support">
+                    <i class="fas fa-headset"></i>
+                    <span class="role-option-text"><strong>Саппорт</strong><small>Помогает игрокам и отвечает на вопросы</small></span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+                <a class="role-option" href="apply.html?role=curator">
+                    <i class="fas fa-star"></i>
+                    <span class="role-option-text"><strong>Ассистент куратора</strong><small>Помогает куратору с активностью и ивентами</small></span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <script>
         (function createParticles() {
             const c = document.getElementById('particles');
@@ -302,6 +413,19 @@
                 p.style.boxShadow = `0 0 ${s*3}px ${p.style.background}`;
                 c.appendChild(p);
             }
+        })();
+
+        (function roleModal() {
+            const modal = document.getElementById('role-modal');
+            const closeBtn = document.getElementById('role-modal-close');
+            const open = () => modal.classList.add('open');
+            const close = () => modal.classList.remove('open');
+            document.querySelectorAll('[data-role-open]').forEach(el => {
+                el.addEventListener('click', e => { e.preventDefault(); open(); });
+            });
+            closeBtn.addEventListener('click', close);
+            modal.addEventListener('click', e => { if (e.target === modal) close(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
         })();
     </script>
 </body>
