@@ -62,7 +62,11 @@
             border: 1px solid #2f3542;
             margin-bottom: 24px;
             overflow: hidden;
-            animation: fadeUp 0.6s ease forwards;
+            transition: border-color 0.35s, box-shadow 0.35s;
+        }
+        .stats-card:hover {
+            border-color: rgba(197, 43, 58, 0.5);
+            box-shadow: 0 18px 46px rgba(197, 43, 58, 0.14);
         }
         body.light-theme .stats-card {
             background: rgba(255, 255, 255, 0.9);
@@ -130,6 +134,34 @@
         body.light-theme .stats-table tr:hover td {
             background: rgba(197, 43, 58, 0.02);
         }
+        .stats-table tbody tr {
+            animation: rowIn 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+        }
+        .stats-table tbody tr:nth-child(1) { animation-delay: 0.04s; }
+        .stats-table tbody tr:nth-child(2) { animation-delay: 0.09s; }
+        .stats-table tbody tr:nth-child(3) { animation-delay: 0.14s; }
+        .stats-table tbody tr:nth-child(4) { animation-delay: 0.19s; }
+        .stats-table tbody tr:nth-child(5) { animation-delay: 0.24s; }
+        .stats-table tbody tr:nth-child(6) { animation-delay: 0.29s; }
+        .stats-table tbody tr:nth-child(7) { animation-delay: 0.34s; }
+        .stats-table tbody tr:nth-child(8) { animation-delay: 0.39s; }
+        .stats-table tbody tr:nth-child(9) { animation-delay: 0.44s; }
+        .stats-table tbody tr:nth-child(10) { animation-delay: 0.49s; }
+        @keyframes rowIn {
+            from { opacity: 0; transform: translateX(-16px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .stats-table tbody tr:hover td:first-child {
+            box-shadow: inset 3px 0 0 #c52b3a;
+        }
+        .stats-table tr:hover .user-avatar {
+            border-color: #c52b3a;
+            box-shadow: 0 0 12px rgba(197, 43, 58, 0.55);
+            transform: scale(1.1);
+        }
+        .user-avatar { transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .stats-card-header h2 i { transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); display: inline-block; }
+        .stats-card:hover .stats-card-header h2 i { transform: scale(1.18) rotate(-6deg); }
         .user-cell {
             display: flex;
             align-items: center;
@@ -270,7 +302,7 @@
             </div>
         </div>
 
-        <div id="mod-card" class="stats-card" style="animation-delay: 0.2s;">
+        <div id="mod-card" class="stats-card reveal" style="--i:0">
             <div class="stats-card-header">
                 <h2><i class="fas fa-shield"></i> Модераторы</h2>
                 <div>
@@ -281,7 +313,7 @@
             <div id="mod-table"></div>
         </div>
 
-        <div id="support-card" class="stats-card" style="animation-delay: 0.4s;">
+        <div id="support-card" class="stats-card reveal" style="--i:1">
             <div class="stats-card-header">
                 <h2><i class="fas fa-headset"></i> Саппорт</h2>
                 <span class="stats-date" id="support-date"></span>
@@ -364,5 +396,6 @@
             document.body.classList.add('light-theme');
         }
     </script>
+<script src="fx.js"></script>
 </body>
 </html>

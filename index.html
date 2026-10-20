@@ -66,9 +66,13 @@
                 0 0 60px rgba(197, 43, 58, 0.5),
                 0 0 2px #000;
             filter: drop-shadow(0 0 25px rgba(197, 43, 58, 0.45));
-            animation: titleIn 1.2s .25s cubic-bezier(.2,.8,.2,1) both;
+            animation: titleIn 1.2s .25s cubic-bezier(.2,.8,.2,1) both, titleGlow 3.6s 1.6s ease-in-out infinite;
         }
         @keyframes titleIn { from { opacity: 0; transform: translateY(26px) scale(.92); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(197, 43, 58, 0.9), 0 0 60px rgba(197, 43, 58, 0.5), 0 0 2px #000; }
+            50% { text-shadow: 0 0 34px rgba(197, 43, 58, 1), 0 0 95px rgba(197, 43, 58, 0.75), 0 0 2px #000; }
+        }
 
         .hero-sub {
             font-size: clamp(.95rem, 2.2vw, 1.15rem);
@@ -88,6 +92,44 @@
             animation: fadeUpIn 1s .65s both;
         }
         @keyframes fadeUpIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+        .hero-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin: 2px 0 30px;
+            animation: fadeUpIn 1s .75s both;
+        }
+        .hero-divider span {
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c52b3a);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-divider span:last-child { transform: scaleX(-1); }
+        .hero-divider span::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -40%;
+            width: 40%;
+            height: 100%;
+            background: #ff9a9a;
+            animation: lineSpark 2.6s linear infinite;
+        }
+        .hero-divider span:last-child::after { animation-delay: 1.3s; }
+        @keyframes lineSpark { 0% { left: -40%; } 60%, 100% { left: 115%; } }
+        .hero-divider i {
+            color: #c52b3a;
+            font-size: .72rem;
+            animation: gemPulse 2.6s ease-in-out infinite;
+        }
+        @keyframes gemPulse {
+            0%, 100% { transform: rotate(45deg) scale(1); filter: drop-shadow(0 0 4px rgba(197, 43, 58, 0.6)); }
+            50% { transform: rotate(45deg) scale(1.3); filter: drop-shadow(0 0 14px rgba(197, 43, 58, 0.95)); }
+        }
 
         .hero-actions {
             display: flex;
@@ -110,8 +152,22 @@
             background: rgba(14, 10, 16, 0.72);
             border: 1px solid rgba(197, 43, 58, 0.35);
             backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
             transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s, border-color .25s, background .25s;
         }
+        .hb::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -130%;
+            width: 55%;
+            height: 100%;
+            background: linear-gradient(105deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-18deg);
+            transition: left .6s ease;
+        }
+        .hb:hover::after { left: 140%; }
         .hb i { color: #c52b3a; transition: color .25s, filter .25s; }
         .hb:hover { transform: translateY(-3px); border-color: #c52b3a; background: rgba(28, 12, 16, 0.85); box-shadow: 0 10px 30px rgba(197, 43, 58, 0.25); }
         .hb:hover i { filter: drop-shadow(0 0 8px rgba(197, 43, 58, 0.8)); }
@@ -119,7 +175,11 @@
             background: linear-gradient(135deg, #c52b3a, #8f1522);
             border-color: transparent;
             color: #fff;
-            box-shadow: 0 8px 28px rgba(197, 43, 58, 0.4);
+            animation: ctaPulse 2.8s ease-in-out infinite;
+        }
+        @keyframes ctaPulse {
+            0%, 100% { box-shadow: 0 8px 28px rgba(197, 43, 58, 0.4); }
+            50% { box-shadow: 0 8px 38px rgba(197, 43, 58, 0.8), 0 0 0 3px rgba(197, 43, 58, 0.18); }
         }
         .hb-main i { color: #ffd9d9; }
         .hb-main:hover { background: linear-gradient(135deg, #d83645, #a81c2b); box-shadow: 0 12px 36px rgba(197, 43, 58, 0.55); }
@@ -233,6 +293,41 @@
             grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
             gap: 18px;
         }
+        .home-sec-head {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            margin: 46px 0 24px;
+        }
+        .home-sec-head h2 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            font-size: 1.35rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #f0e6d2;
+            margin: 0;
+            white-space: nowrap;
+        }
+        .home-sec-head .sec-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(197, 43, 58, 0.6));
+            position: relative;
+            overflow: hidden;
+        }
+        .home-sec-head .sec-line:last-child { transform: scaleX(-1); }
+        .home-sec-head .sec-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -40%;
+            width: 40%;
+            height: 100%;
+            background: #ff9a9a;
+            animation: lineSpark 3.2s linear infinite;
+        }
+        .home-sec-head .sec-line:last-child::after { animation-delay: 1.6s; }
         .hcard {
             display: block;
             text-decoration: none;
@@ -241,8 +336,31 @@
             border: 1px solid #2f3542;
             border-radius: 6px;
             padding: 26px 22px;
+            position: relative;
+            overflow: hidden;
             transition: transform .25s cubic-bezier(.2,.8,.2,1), border-color .25s, box-shadow .25s;
         }
+        .hcard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 2px;
+            width: 0;
+            background: linear-gradient(90deg, #c52b3a, #ff5f6d);
+            transition: width .5s cubic-bezier(.2,.8,.2,1);
+        }
+        .hcard:hover::before { width: 100%; }
+        .hcard::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(340px circle at var(--gx, 50%) var(--gy, 50%), rgba(197, 43, 58, 0.16), transparent 62%);
+            opacity: 0;
+            transition: opacity .35s;
+            pointer-events: none;
+        }
+        .hcard:hover::after { opacity: 1; }
         .hcard:hover { transform: translateY(-6px); border-color: #c52b3a; box-shadow: 0 16px 40px rgba(197, 43, 58, 0.18); }
         .hcard-icon {
             width: 52px;
@@ -256,9 +374,13 @@
             font-size: 1.3rem;
             color: #c52b3a;
             margin-bottom: 16px;
-            transition: box-shadow .25s;
+            transition: box-shadow .35s, transform .35s cubic-bezier(.2,.8,.2,1), background .35s;
         }
-        .hcard:hover .hcard-icon { box-shadow: 0 0 18px rgba(197, 43, 58, 0.4); }
+        .hcard:hover .hcard-icon {
+            box-shadow: 0 0 22px rgba(197, 43, 58, 0.5);
+            transform: rotate(-8deg) scale(1.1);
+            background: rgba(197, 43, 58, 0.22);
+        }
         .hcard h3 {
             margin: 0 0 8px;
             font-family: 'Oswald', sans-serif;
@@ -337,6 +459,11 @@
         }
         .role-modal-close:hover { border-color: #c52b3a; color: #c52b3a; }
         .role-options { display: flex; flex-direction: column; gap: 10px; }
+        .role-modal.open .role-option { animation: optIn .45s cubic-bezier(.2,.8,.2,1) both; }
+        .role-modal.open .role-option:nth-child(1) { animation-delay: .08s; }
+        .role-modal.open .role-option:nth-child(2) { animation-delay: .16s; }
+        .role-modal.open .role-option:nth-child(3) { animation-delay: .24s; }
+        @keyframes optIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
         .role-option {
             display: flex;
             align-items: center;
@@ -402,6 +529,9 @@
             <div class="hero-emblem"><img src="emblem.png" alt="Эмблема RealMord"></div>
             <h1 class="hero-title">RealMord</h1>
             <p class="hero-sub">Клан · Peroxide · Discord</p>
+            <div class="hero-divider">
+                <span></span><i class="fas fa-gem"></i><span></span>
+            </div>
             <div class="hero-actions">
                 <a class="hb hb-main" href="rules.html"><i class="fas fa-scroll"></i> Правила</a>
                 <a class="hb" href="apply.html" data-role-open><i class="fas fa-pen-to-square"></i> Заявка в стафф</a>
@@ -414,7 +544,7 @@
     </section>
 
     <section class="home-section" id="about">
-        <div class="home-about">
+        <div class="home-about reveal">
             <div class="about-visual"><img src="emblem.png" alt="Эмблема RealMord"></div>
             <div class="about-body">
                 <span class="about-eyebrow">RealMord · Peroxide</span>
@@ -430,23 +560,29 @@
             </div>
         </div>
 
+        <div class="home-sec-head reveal">
+            <div class="sec-line"></div>
+            <h2>Разделы сайта</h2>
+            <div class="sec-line"></div>
+        </div>
+
         <div class="home-cards">
-            <a class="hcard" href="rules.html">
+            <a class="hcard reveal" style="--i:0" href="rules.html">
                 <div class="hcard-icon"><i class="fas fa-scroll"></i></div>
                 <h3>Правила</h3>
                 <p>Полный свод правил клана: поведение, трейды, наказания и сроки их погашения.</p>
             </a>
-            <a class="hcard" href="apply.html" data-role-open>
+            <a class="hcard reveal" style="--i:1" href="apply.html" data-role-open>
                 <div class="hcard-icon"><i class="fas fa-pen-to-square"></i></div>
                 <h3>Заявки в стафф</h3>
                 <p>Хочешь стать модератором, саппортом или ассистентом куратора? Подай заявку.</p>
             </a>
-            <a class="hcard" href="activity.html">
+            <a class="hcard reveal" style="--i:2" href="activity.html">
                 <div class="hcard-icon"><i class="fas fa-chart-bar"></i></div>
                 <h3>Активность</h3>
                 <p>Таблица времени в голосовых каналах: кто выполняет норму, а кто нет.</p>
             </a>
-            <a class="hcard" href="vacation.html">
+            <a class="hcard reveal" style="--i:3" href="vacation.html">
                 <div class="hcard-icon"><i class="fas fa-umbrella-beach"></i></div>
                 <h3>Отпуск</h3>
                 <p>Не будешь играть некоторое время? Оставь заявку на отпуск, чтобы не получить наказание.</p>
@@ -510,5 +646,6 @@
             document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
         })();
     </script>
+    <script src="fx.js"></script>
 </body>
 </html>
