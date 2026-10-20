@@ -7,7 +7,7 @@
     <title>Заявки · RealMord</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
@@ -26,7 +26,7 @@
             margin-bottom: 30px;
         }
         .apply-header h1 {
-            font-size: 2rem;
+            font-size: 2.15rem;
             font-weight: 800;
             background: linear-gradient(135deg, #f0e6d2, #c0b9a8);
             -webkit-background-clip: text;
@@ -36,19 +36,6 @@
             color: #a0a8b7;
             font-size: 1rem;
             margin-top: 8px;
-        }
-        .apply-header .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #c52b3a;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 10px;
-            transition: color 0.2s;
-        }
-        .apply-header .back-link:hover {
-            color: #a8222e;
         }
         .form-container {
             animation: fadeUp 0.6s ease forwards;
@@ -79,11 +66,16 @@
 <body>
     <div class="apply-page">
         <div class="apply-header">
+            <div class="page-emblem"><img src="emblem.png" alt="RealMord"></div>
+            <span class="page-eyebrow">RealMord · Стафф</span>
             <h1 id="form-title">Заявка на модератора</h1>
-            <p>RealMord</p>
-            <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+            <p>Заявка уйдёт прямо в Discord</p>
+            <div class="page-divider">
+                <span></span><i class="fas fa-gem"></i><span></span>
+            </div>
+            <div class="page-actions">
                 <a href="index.html" class="back-link"><i class="fas fa-home"></i> На главную</a>
-                <a href="rules.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к правилам</a>
+                <button type="button" class="back-link" data-go-back><i class="fas fa-arrow-left"></i> Назад</button>
             </div>
         </div>
 

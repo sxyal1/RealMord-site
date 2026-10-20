@@ -29,6 +29,20 @@
         revealEls.forEach(function (el) { io.observe(el); });
     }
 
+    document.querySelectorAll('[data-go-back]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            let sameOrigin = false;
+            try {
+                sameOrigin = document.referrer && new URL(document.referrer).origin === location.origin;
+            } catch (e) { sameOrigin = false; }
+            if (sameOrigin && history.length > 1) {
+                history.back();
+            } else {
+                location.href = 'index.html';
+            }
+        });
+    });
+
     if (reduce || !matchMedia('(pointer:fine)').matches) return;
 
     document.querySelectorAll('.hcard, .home-about').forEach(function (card) {
