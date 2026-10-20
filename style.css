@@ -35,28 +35,33 @@ body::before {
     position: fixed;
     left: 0;
     top: 0;
-    width: 70px;
+    width: 76px;
     height: 100vh;
-    background: rgba(30, 34, 43, 0.95);
-    backdrop-filter: blur(8px);
-    border-right: 1px solid #2a2f3a;
-    transition: width 0.3s ease;
+    background: linear-gradient(180deg, rgba(15, 13, 19, 0.96), rgba(23, 15, 21, 0.96));
+    backdrop-filter: blur(14px);
+    border-right: 1px solid rgba(197, 43, 58, 0.3);
+    box-shadow: 4px 0 26px rgba(0, 0, 0, 0.45);
+    transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
     z-index: 1000;
     overflow-y: auto;
     overflow-x: hidden;
     white-space: nowrap;
-    box-shadow: 2px 0 12px rgba(0,0,0,0.3);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(197, 43, 58, 0.5) transparent;
 }
 .side-nav:hover {
-    width: 240px;
+    width: 252px;
 }
+.side-nav::-webkit-scrollbar { width: 5px; }
+.side-nav::-webkit-scrollbar-thumb { background: rgba(197, 43, 58, 0.5); border-radius: 3px; }
+.side-nav::-webkit-scrollbar-track { background: transparent; }
 .side-nav ul {
     list-style: none;
-    padding: 20px 0;
+    padding: 16px 0 20px;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
 }
 .side-nav li {
     width: 100%;
@@ -64,33 +69,114 @@ body::before {
 .side-nav a {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 10px 16px;
-    color: #b9c2d4;
+    gap: 14px;
+    padding: 10px 17px;
+    margin: 0 8px;
+    width: calc(100% - 16px);
+    box-sizing: border-box;
+    color: #9aa5b8;
     text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: all 0.2s;
-    border-radius: 0;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+    border-radius: 6px;
+    position: relative;
     white-space: nowrap;
+    transition: background 0.25s, color 0.25s, transform 0.25s;
+}
+.side-nav a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 18%;
+    width: 3px;
+    height: 64%;
+    border-radius: 0 3px 3px 0;
+    background: linear-gradient(180deg, #ff5f6d, #c52b3a);
+    transform: scaleY(0);
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .side-nav a i {
-    width: 24px;
+    width: 26px;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #c52b3a;
+    flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.3s;
 }
 .side-nav a span {
     opacity: 0;
-    transition: opacity 0.2s;
+    transform: translateX(-10px);
+    transition: opacity 0.3s, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .side-nav:hover a span {
     opacity: 1;
+    transform: translateX(0);
 }
 .side-nav a:hover {
-    background: #c52b3a20;
+    background: linear-gradient(90deg, rgba(197, 43, 58, 0.25), rgba(197, 43, 58, 0.05));
     color: #ffffff;
-    border-left: 3px solid #c52b3a;
+    transform: translateX(4px);
+}
+.side-nav a:hover::before { transform: scaleY(1); }
+.side-nav a:hover i,
+.side-nav a:hover svg { transform: scale(1.15); }
+.side-nav a:hover i { color: #ff7a85; }
+
+/* --- бренд вверху панели --- */
+.side-nav .nav-brand {
+    padding: 12px 8px;
+}
+.side-nav .nav-brand img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    padding: 2px;
+    background: rgba(14, 10, 16, 0.85);
+    border: 1.5px solid rgba(197, 43, 58, 0.7);
+    box-shadow: 0 0 14px rgba(197, 43, 58, 0.4);
+    flex-shrink: 0;
+    transition: box-shadow 0.3s, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.side-nav .nav-brand:hover img {
+    box-shadow: 0 0 24px rgba(197, 43, 58, 0.85);
+    transform: rotate(10deg) scale(1.08);
+}
+.side-nav .nav-brand span {
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #f0e6d2;
+}
+.side-nav .nav-brand:hover span { color: #ffffff; }
+.side-nav .nav-brand:hover {
+    background: linear-gradient(90deg, rgba(197, 43, 58, 0.2), rgba(197, 43, 58, 0.04));
+}
+
+/* --- разделители групп --- */
+.side-nav .nav-sep {
+    height: 1px;
+    margin: 8px 16px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+}
+
+/* --- пункт Discord --- */
+.side-nav .nav-discord { color: #8f9bff; }
+.side-nav .nav-discord svg {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.side-nav .nav-discord::before {
+    background: linear-gradient(180deg, #7f8dff, #5865f2);
+}
+.side-nav .nav-discord:hover {
+    background: linear-gradient(90deg, rgba(88, 101, 242, 0.3), rgba(88, 101, 242, 0.06));
+    color: #b6bfff;
 }
 
 /* ===== ПОДМЕНЮ ЗАЯВОК ===== */
@@ -754,18 +840,36 @@ body.light-theme {
     color: #1e2a3a;
 }
 body.light-theme .side-nav {
-    background: rgba(248, 250, 252, 0.95);
-    backdrop-filter: blur(8px);
-    border-right-color: #d0d7e0;
+    background: linear-gradient(180deg, rgba(250, 251, 253, 0.96), rgba(245, 247, 250, 0.96));
+    backdrop-filter: blur(12px);
+    border-right-color: rgba(197, 43, 58, 0.35);
+    box-shadow: 4px 0 22px rgba(0, 0, 0, 0.1);
 }
 body.light-theme .side-nav a {
-    color: #2c3e50;
+    color: #46566b;
 }
 body.light-theme .side-nav a i {
     color: #c52b3a;
 }
 body.light-theme .side-nav a:hover {
-    background: #c52b3a20;
+    background: linear-gradient(90deg, rgba(197, 43, 58, 0.14), rgba(197, 43, 58, 0.03));
+    color: #b91c1c;
+}
+body.light-theme .side-nav .nav-brand img {
+    background: #ffffff;
+    box-shadow: 0 0 12px rgba(197, 43, 58, 0.3);
+}
+body.light-theme .side-nav .nav-brand span {
+    color: #2c3e50;
+}
+body.light-theme .side-nav .nav-brand:hover span {
+    color: #b91c1c;
+}
+body.light-theme .side-nav .nav-sep {
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.14), transparent);
+}
+body.light-theme .side-nav .nav-discord {
+    color: #4a55c9;
 }
 body.light-theme .side-nav .submenu {
     background: rgba(248, 250, 252, 0.98);
@@ -941,13 +1045,43 @@ body.light-theme .footer-note {
         padding: 6px 12px;
         border-radius: 4px;
         gap: 6px;
+        margin: 0;
+        width: auto;
     }
+    .side-nav a::before { display: none; }
+    .side-nav a:hover { transform: none; }
     .side-nav a span {
         opacity: 1;
         font-size: 0.8rem;
+        transform: none;
+        transition: opacity 0.3s;
     }
     .side-nav a i {
         font-size: 1rem;
+    }
+    .side-nav .nav-sep {
+        width: 1px;
+        height: 22px;
+        margin: 0;
+        flex-shrink: 0;
+        background: rgba(255, 255, 255, 0.16);
+    }
+    body.light-theme .side-nav .nav-sep {
+        background: rgba(0, 0, 0, 0.16);
+    }
+    .side-nav .nav-brand img {
+        width: 30px;
+        height: 30px;
+        padding: 2px;
+        border-width: 1.5px;
+    }
+    .side-nav .nav-brand span {
+        letter-spacing: 1.5px;
+        font-size: 0.82rem;
+    }
+    .side-nav .nav-discord svg {
+        width: 20px;
+        height: 20px;
     }
     .side-nav .has-submenu {
         position: relative;
@@ -1287,11 +1421,6 @@ body::after {
     transition: opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), translate 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
     transition-delay: calc(var(--i, 0) * 0.13s);
 }
-
-/* ---- боковое меню: микро-движение ---- */
-.side-nav a i { transition: transform 0.25s; }
-.side-nav a:hover { transform: translateX(5px); }
-.side-nav a:hover i { transform: scale(1.15); }
 
 /* ---- заголовки секций: иконка оживает ---- */
 .section-icon {
