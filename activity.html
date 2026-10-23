@@ -315,7 +315,7 @@
     </div>
 
     <script>
-        const API_BASES = ['http://localhost:3000', 'https://rez-bot-r5uh.onrender.com'];
+        const API_BASES = ['https://0y1j17bs1g.apps.bot-hosting.cloud', 'http://localhost:3000'];
         const NORM_MS = 2 * 60 * 60 * 1000;
 
         function formatTime(ms) {
@@ -359,11 +359,15 @@
                 let data = null;
                 let lastErr = null;
                 for (const base of API_BASES) {
+                    const ctrl = new AbortController();
+                    const timer = setTimeout(() => ctrl.abort(), 9000);
                     try {
-                        const res = await fetch(base + '/api/voice');
+                        const res = await fetch(base + '/api/voice', { signal: ctrl.signal });
                         data = await res.json();
+                        clearTimeout(timer);
                         break;
                     } catch (err) {
+                        clearTimeout(timer);
                         lastErr = err;
                     }
                 }

@@ -116,21 +116,26 @@
 
     <script>
         (function() {
-            const API_BASES = ['http://localhost:3000', 'https://rez-bot-r5uh.onrender.com'];
+            const API_BASES = ['https://0y1j17bs1g.apps.bot-hosting.cloud', 'http://localhost:3000'];
             async function postJSON(path, body) {
                 let lastErr;
                 for (const base of API_BASES) {
                     let res;
+                    const ctrl = new AbortController();
+                    const timer = setTimeout(() => ctrl.abort(), 9000);
                     try {
                         res = await fetch(base + path, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(body)
+                            body: JSON.stringify(body),
+                            signal: ctrl.signal
                         });
                     } catch (err) {
+                        clearTimeout(timer);
                         lastErr = err;
                         continue;
                     }
+                    clearTimeout(timer);
                     return await res.json();
                 }
                 throw lastErr || new Error('network');
